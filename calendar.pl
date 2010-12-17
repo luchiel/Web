@@ -3,6 +3,9 @@ use strict;
 use warnings;
 use DateTime;
 use DateTime::Format::Strptime;
+use CGI;
+
+my $q = CGI->new;
 
 my $format = new DateTime::Format::Strptime
 (
@@ -11,11 +14,12 @@ my $format = new DateTime::Format::Strptime
 	#locale => 'en_AU'
 );
 
-my $d1 = $format->parse_datetime(request.get('date1', ''));
 
-my $d2 = $format->parse_datetime(request.get('date2', ''));
+my $d1 = $format->parse_datetime($q->param('date1'));
+my $d2 = $format->parse_datetime($q->param('date2'));
 
-my $d = $d2 - $d1;
+my $d = 1;
+#my $d = $d2->delta_md($d1);
 #$dt->delta_md( $datetime )
 #$dt->delta_days( $datetime )
 
@@ -26,7 +30,7 @@ print <<HERE
 		<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
 		<script type="text/javascript" src="http://yandex.st/jquery/1.4.2/jquery.min.js"></script>
 		<script type="text/javascript" src="http://yandex.st/jquery-ui/1.8.2/jquery-ui.js"></script>
-		<script type="text/javascript" src="script.js"></script>
+		<script type="text/javascript" src="H:/client/script.js"></script>
 		<title>Calendar</title>
 	</head>
 	<body>
@@ -38,7 +42,7 @@ print <<HERE
 				<td><input type="submit" value="Count interval!" name="submit" /></td>
 			</tr>
 			<tr colspan="3">
-				<td id="output">%s</td>
+				<td id="output">$d</td>
 			</tr>
 		</table>
 		</form>
