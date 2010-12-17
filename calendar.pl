@@ -17,9 +17,11 @@ my $format = new DateTime::Format::Strptime
 
 my $d1 = $format->parse_datetime($q->param('date1'));
 my $d2 = $format->parse_datetime($q->param('date2'));
+$d1 = DateTime->new(year => 2000) if !defined($d1);
+$d2 = DateTime->new(year => 2000) if !defined($d2);
 
 my $d = 1;
-#my $d = $d2->delta_md($d1);
+$d = $d2->delta_md($d1);
 #$dt->delta_md( $datetime )
 #$dt->delta_days( $datetime )
 
