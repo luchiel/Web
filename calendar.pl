@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Class::Date;
 use Date::Parse;
-use Date::Format;
+#use Date::Format;
 use CGI;
 
 print "\n\n";
@@ -22,11 +22,11 @@ if(!defined$d2)
 	$d2 = Class::Date->new([2010, 01, 02]);
 }
 
-my $days_between = (Class::Date->new($d2) - $d1)->day;
+my $days_between = ($d2 - $d1)->day;
 
-my $format = "%d-%B-%Y";
-print time2str($format, $d1);
 #$d2 = time2str("%d-%B-%Y", $d2);
+$d1 = $q->param("date1");
+$d2 = $q->param("date2");
 
 print <<HERE
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
