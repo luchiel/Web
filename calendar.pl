@@ -2,31 +2,44 @@
 use strict;
 use warnings;
 use Class::Date;
-use Date::Parse;
-#use Date::Format;
 use CGI;
+use Switch;
+
+sub getMonth
+{
+	switch ($_[0])
+	{
+		case "January"		{ return "1" }
+		case "February"		{ return "2" }
+		case "March"		{ return "3" }
+		case "April"		{ return "4" }
+		case "May"			{ return "5" }
+		case "June"			{ return "6" }
+		case "July"			{ return "7" }
+		case "August"		{ return "8" }
+		case "September"	{ return "9" }
+		case "October"		{ return "10" }
+		case "November"		{ return "11" }
+		case "December"		{ return "12" }
+	}
+}
 
 print "\n\n";
-
 my $q = CGI->new;
+my $day, my $month, my $year;
 
-my $d1 = Class::Date->new(str2time($q->param("date1")));
-if(!defined($d1))
-{
-	$d1 = Class::Date->new([2010, 01, 01]);
-}
+if(defined($q->param("date1"))){($day, $month, $year) = split "-", $q->param("date1");}
+my $d1 = Class::Date->new([$year, getMonth($month), $day]);
+if(!defined($d1)){$d1 = Class::Date->new([2010, 01, 01]);}
 
-my $d2 = Class::Date->new(str2time($q->param("date2")));
-if(!defined$d2)
-{
-	$d2 = Class::Date->new([2010, 01, 02]);
-}
+if(defined($q->param("date2"))){($day, $month, $year) = split "-", $q->param("date2");}
+my $d2 = Class::Date->new([$year, getMonth($month), $day]);
+if(!defined($d2)){$d2 = Class::Date->new([2010, 01, 02]);}
 
 my $days_between = ($d2 - $d1)->day;
 
-#$d2 = time2str("%d-%B-%Y", $d2);
-$d1 = $q->param("date1");
-$d2 = $q->param("date2");
+$d1 = defined($q->param("date1"))?$q->param("date1"):"";
+$d2 = defined($q->param("date2"))?$q->param("date2"):"";
 
 print <<HERE
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
